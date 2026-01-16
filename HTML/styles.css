@@ -1,0 +1,242 @@
+/* -------------------------------
+        Fondo y Animaciones
+---------------------------------*/
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow: auto;
+    background: linear-gradient(315deg, rgb(120, 4, 112) 3%, rgb(163, 97, 249) 38%, rgba(48, 184, 238, 0.67) 68%, rgb(73, 59, 183) 88%);
+    animation: gradient 60s ease infinite;
+    background-size: 200% 200%;
+    background-attachment: fixed;
+    position: relative;
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+/* Waves */
+.wave {
+    background: rgba(255, 255, 255, 0.175);
+    border-radius: 1000% 1000% 0 0;
+    position: fixed;
+    width: 200%;
+    height: 12em;
+    animation: wave 60s -3s linear infinite;
+    transform: translate3d(0, 0, 0);
+    opacity: 0.8;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+}
+.wave:nth-of-type(2) { bottom: -1.25em; animation: wave 18s linear reverse infinite; opacity: 0.8; }
+.wave:nth-of-type(3) { bottom: -2.5em; animation: wave 20s -1s reverse infinite; opacity: 0.9; }
+@keyframes wave {
+    2% { transform: translateX(1); }
+    25% { transform: translateX(-25%); }
+    50% { transform: translateX(-50%); }
+    75% { transform: translateX(-25%); }
+    100% { transform: translateX(1); }
+}
+
+/* Dark overlay */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Scanlines */
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(
+        0deg,
+        transparent 0px,
+        rgba(0,0,0,0.04) 4px,
+        transparent 4px
+    );
+    z-index: 999;
+}
+
+/* -------------------------------
+          Menu XMB
+---------------------------------*/
+#menuWrapper {
+    position: fixed;
+    bottom: 135px;
+    left: 20%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    perspective: 200px;
+    overflow: visible;
+    z-index: 5;
+}
+
+.menu { display: flex; gap: 1px; }
+.item { flex: 0 0 auto; transform-origin: center bottom; cursor: pointer; transition: transform 0.45s ease, opacity 0.3s ease; }
+.item img { height: 150px; width: auto; display: block;}
+
+/* -------------------------------
+     Contextual Dropdown Panel
+---------------------------------*/
+#contextPanel {
+    position: fixed;
+    min-width: 220px;
+    padding: 12px 16px;
+    background: rgba(0, 0, 0, 0.75);
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 10px;
+    backdrop-filter: blur(6px);
+    color: white;
+    font-family: Helvetica, Arial, sans-serif;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 30;
+}
+
+#contextPanel.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+#contextPanel ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#contextPanel li {
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+#contextPanel li:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+/* -------------------------------
+        Center Text    
+---------------------------------*/
+#center {
+    position: fixed;
+    bottom: 67%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* -------------------------------
+        User Text    
+---------------------------------*/
+#userText {
+    display: inline-block;
+    font-family: monospace;
+    font-size: 1.8em;
+    color: #fff;
+
+    white-space: nowrap;
+    overflow: hidden;
+
+    border-right: 4px solid;
+
+    max-width: 0;      /* CLAVE */
+    opacity: 0;
+}
+
+#userText.play {
+    opacity: 1;
+    animation:
+        typing 3s steps(70, end) forwards,
+        blink 1s step-end infinite;
+}
+
+@keyframes typing {
+    from { max-width: 0; }
+    to   { max-width: 70ch; }
+}
+
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+
+
+/* ===============================
+   Confirm FX (PNG SAFE)
+================================= */
+
+.item.confirm img {
+    animation: confirmGlow 0.25s ease-out;
+}
+
+@keyframes confirmGlow {
+    0% {
+        filter: drop-shadow(0 0 0 rgba(255,255,255,0))
+                brightness(1);
+    }
+    50% {
+        filter: drop-shadow(0 0 14px rgba(255,255,255,0.9))
+                brightness(1.4);
+    }
+    100% {
+        filter: drop-shadow(0 0 0 rgba(255,255,255,0))
+                brightness(1);
+    }
+}
+
+/* Confirm FX – Bounce + Glow */
+.item.confirm img {
+    animation: confirmBounce 0.3s ease-out forwards,
+               confirmGlow 0.3s ease-out forwards;
+}
+
+@keyframes confirmBounce {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.05); } /* crece 5% */
+    70%  { transform: scale(0.98); } /* rebote pequeño */
+    100% { transform: scale(1); }    /* vuelve a normal */
+}
+
+/* -------------------------------
+          Reloj, Fecha y Batería
+---------------------------------*/
+#reloj { position: fixed; top: 10px; right: 20px; font-family: Helvetica, Verdana, sans-serif; font-size: 2em; color: #fff; z-index: 10; opacity: 0.8; }
+#fecha { position: fixed; top: 10px; right: 170px; font-family: Helvetica, Verdana, sans-serif; font-size: 2em; color: #fff; z-index: 10; opacity: 0.8; }
+#batteryLogo { position: fixed; top: 5px; right: 113px; height: 40px; box-sizing: border-box; z-index: 10; opacity: 0.8; }
+#batteryLogo img { height: 45px; width: auto; display: block; }
+
+/* -------------------------------
+          Mini Reproductor Music
+---------------------------------*/
+#musicPanel {
+    position: fixed;
+    bottom: 180px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 320px;
+    padding: 12px;
+    background: rgba(0,0,0,0.7);
+    border: 2px solid #fff;
+    border-radius: 10px;
+    backdrop-filter: blur(4px);
+    color: #fff;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    z-index: 20;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#musicPanel.hidden { opacity: 0; transform: translateX(-50%) translateY(20px); pointer-events: none; }
+#musicControls button { margin: 0 5px; padding: 6px 12px; background: rgba(255,255,255,0.1); border: 1px solid #fff; border-radius: 4px; color: #fff; cursor: pointer; transition: all 0.2s ease; }
+#musicControls button:hover { background: rgba(255,255,255,0.3); }
+#volumeSlider { width: 80px; margin-left: 10px; }
